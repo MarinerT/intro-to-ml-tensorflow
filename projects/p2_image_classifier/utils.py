@@ -1,45 +1,31 @@
 #!/usr/bin/python3
 
-import argparse
-import utility_functions
-import json as simplejson
-from utility_functions import *
+import numpy as np
+import tensorflow as tf
 from PIL import Image
 
-def Main():
-    #parse out variables
-    parser = argparse.ArgumentParser(description='Image Classifier.')
 
-    parser = argparse.ArgumentParser()
-    #mandatory arguments 
-    parser.add_argument('path', help='string; filepath of image')
-    parser.add_argument('model', help='.h5 file')
-    
-    #not mandatory arguments
-    parser.add_argument('--top_k', help='integer; the number of top responses', action='store_true',default=5)
-    parser.add_argument('--category_names', help='a json file; map of label to catetgory',action='store_true',default='/home/workspace/label_map.json')
+#formatting the image for processing (normalize pixels and changing shape to (224,224)
+def process_image(image):
+  image = tf.cast(image, tf.float32)
+  image = tf.image.resize(image,(224,224)) 
+  image /= 255
+  return image.numpy()
 
-    args = parser.parse_args()
 
-    #map labels
-    with open(args.category_names,'r') as f:
-        class_names = simplejson.load(f)
+def predict(image_path, model, top_k):
+  
+  im = Image.open(image_path)
+  image = np.asarray(im)
+  image = process_image(image)
+  processed_image = np.expand_dims(image,axis=0)
+  
+  predictions = model(processed_image, training=False)
+  prob_predictions = predictions[0]
 
-    #make predictions
-    probs, classes = predict(args.path, args.model, args.top_k)
-    labels = [class_names[n] for n in classes]
 
-    #outputs
-
-    #print the top_k and their associated probabilities
-    if args.top_k:
-        for _ in range(args.top_k):
-            print('\t\u2022' + probs[_] + ':' + labels[_])
-            
-    #print the most likely label & it's associated probability
-    else:
-        print(labels[np.argmax(probs)],max(probs))
-
-if __name__ == '__main__':
-    Main()
-    
+  top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=top_k)
+  probs = top_k_probs.numpy().tolist()
+  classes = top_k_indices.numpy().tolist()
+  classes = [n+1 for n in classes]
+  return probs, classes

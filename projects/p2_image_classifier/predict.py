@@ -16,9 +16,14 @@ def Main():
     
     #not mandatory arguments
     parser.add_argument('--top_k', help='integer; the number of top responses', action='store_true',default=5)
-    parser.add_argument('--category_names', help='a json file; map of label to catetgory',action='store_true',default='/home/workspace/label_map.json')
+    parser.add_argument('--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
 
     args = parser.parse_args()
+
+    #creating the model
+    # this version makes the keras version so we can use dot notation.
+    model = tf.keras.models.load_model(args.model)
+
 
     #map labels
     with open(args.category_names,'r') as f:
