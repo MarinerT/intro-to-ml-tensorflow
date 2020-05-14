@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import argparse
-import utility_functions
 import json as simplejson
 from utils import *
 from PIL import Image
