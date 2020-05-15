@@ -31,8 +31,7 @@ def Main():
 
     #make predictions
     probs, classes = predict(args.path, model, args.top_k)
-    classes = classes.numpy().tolist()
-    labels = class_names.get(str(classes))
+    labels = [class_names[n+1] for n in classes.numpy().tolist()]
 
     #outputs
 
