@@ -64,7 +64,7 @@ def Main():
     #print the top_k and their associated probabilities
     if args.top_k:
         for _ in range(args.top_k):
-            print('\t\u2022' + probs[_] + ':' + labels[_])
+            print('\t\u2022' + str(probs[_]) + ':' + str(labels[_]))
             
     #print the most likely label & it's associated probability
     else:
