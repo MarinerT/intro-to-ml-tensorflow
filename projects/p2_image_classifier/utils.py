@@ -17,7 +17,7 @@ def process_image(image):
   return image.numpy()
 
 
-def predict(image_path, model_given, top_k):
+def predict(image_path, model, top_k):
   
   im = Image.open(image_path)
   image = np.asarray(im)
