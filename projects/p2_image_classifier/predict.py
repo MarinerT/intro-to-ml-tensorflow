@@ -35,7 +35,7 @@ def Main():
               metrics=['accuracy'])
    
     #load the weights
-    model.load_weights("model.h5")
+    model.load_weights(args.model)
     
     #map labels
     with open(args.category_names,'r') as f:
