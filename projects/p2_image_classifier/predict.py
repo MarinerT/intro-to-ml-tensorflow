@@ -23,20 +23,22 @@ def Main():
     #creating the model
     # loading the MobileNet from TensorFlow Hub
     url = 'https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4'
+
     feature_extractor = hub.KerasLayer(url, input_shape = (image_size, image_size,3))
-    
+    feature_extractor.trainable = False
+
     # build the model
     model = tf.keras.Sequential([
-                    feature_extractor,
-                    tf.keras.layers.Dense(102, activation='softmax')])
-    
+        feature_extractor,
+        tf.keras.layers.Dense(102, activation='softmax')])
+
     model.compile(optimizer = 'adam', 
               loss = 'sparse_categorical_crossentropy', 
               metrics=['accuracy'])
-   
-    #load the weights
+
+    #loading weights
     model.load_weights(args.model)
-    
+  
     #map labels
     with open(args.category_names,'r') as f:
         class_names = simplejson.load(f)
