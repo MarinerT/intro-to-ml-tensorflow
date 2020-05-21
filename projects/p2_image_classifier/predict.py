@@ -9,7 +9,6 @@ def Main():
     #parse out variables
     parser = argparse.ArgumentParser(description='Image Classifier.')
 
-    parser = argparse.ArgumentParser()
     #mandatory arguments 
     parser.add_argument('path', help='string; filepath of image')
     parser.add_argument('model', help='.h5 file')
