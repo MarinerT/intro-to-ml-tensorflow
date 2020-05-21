@@ -43,6 +43,12 @@ def Main():
     with open(args.category_names,'r') as f:
         class_names = simplejson.load(f)
 
+    #process image
+    im = Image.open(args.path)
+    image = np.asarray(im)
+    image = process_image(image)
+    processed_image = np.expand_dims(image,axis=0)
+
     #make predictions
     predictions = model(processed_image, training=False)
     prob_predictions = predictions[0]
