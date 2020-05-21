@@ -14,8 +14,8 @@ def Main():
     parser.add_argument('model', help='.h5 file')
     
     #not mandatory arguments
-    parser.add_argument('--top_k', type=int, help='integer; the number of top responses',action='store_true', default=5)
-    parser.add_argument('--category_names', type=str, help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
+    parser.add_argument('--top_k', help='integer; the number of top responses',action='store_true', default=5)
+    parser.add_argument('--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
 
     args = parser.parse_args()
 
