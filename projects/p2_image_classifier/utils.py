@@ -23,7 +23,7 @@ def predict(image_path, model_given, top_k):
   image = np.asarray(im)
   image = process_image(image)
   processed_image = np.expand_dims(image,axis=0)
-  
+'''  
   # loading the MobileNet from TensorFlow Hub
   url = 'https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4'
 
@@ -41,7 +41,7 @@ def predict(image_path, model_given, top_k):
 
   #loading weights
   model.load_weights(model_given)
-  
+''' 
   #make predictions
   predictions = model(processed_image, training=False)
   prob_predictions = predictions[0]
