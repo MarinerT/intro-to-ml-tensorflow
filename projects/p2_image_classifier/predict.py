@@ -42,8 +42,9 @@ def Main():
         class_names = simplejson.load(f)
 
     #make predictions
-    probs, classes = predict(args.path, model, args.top_k)
-    labels = [class_names[n+1] for n in classes.numpy().tolist()]
+    probs, top_k_classes = predict(args.path, model, args.top_k)
+    classes = top_k_classes.numpy().tolist()
+    labels = [class_names[n+1] for n in classes]
 
     #outputs
 
