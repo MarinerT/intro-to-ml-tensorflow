@@ -44,8 +44,13 @@ def Main():
         class_names = simplejson.load(f)
 
     #make predictions
-    probs, top_k_classes = predict(args.path, model, args.top_k)
-    classes = top_k_classes.numpy().tolist()
+    predictions = model(processed_image, training=False)
+    prob_predictions = predictions[0]
+    top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=top_k)
+    
+    probs = top_k_probs.numpy().tolist()
+    classes = top_k_indices.numpy().tolist()
+    classes = [n+1 for n in classes]
     labels = [class_names[n+1] for n in classes]
 
     #outputs
