@@ -52,7 +52,7 @@ def Main():
     #make predictions
     predictions = model(processed_image, training=False)
     prob_predictions = predictions[0]
-    top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=top_k)
+    top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=args.top_k)
     
     probs = top_k_probs.numpy().tolist()
     classes = top_k_indices.numpy().tolist()
