@@ -21,10 +21,22 @@ def Main():
     args = parser.parse_args()
 
     #creating the model
-    # this version makes the keras version so we can use dot notation.
-    model = tf.keras.models.load_model(args.model)
-
-
+    # loading the MobileNet from TensorFlow Hub
+    url = 'https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4'
+    feature_extractor = hub.KerasLayer(url, input_shape = (image_size, image_size,3))
+    
+    # build the model
+    model = tf.keras.Sequential([
+                    feature_extractor,
+                    tf.keras.layers.Dense(102, activation='softmax')])
+    
+    model.compile(optimizer = 'adam', 
+              loss = 'sparse_categorical_crossentropy', 
+              metrics=['accuracy'])
+   
+    #load the weights
+    model.load_weights("model.h5")
+    
     #map labels
     with open(args.category_names,'r') as f:
         class_names = simplejson.load(f)
