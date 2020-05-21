@@ -3,7 +3,7 @@
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-
+import tensorflow_hub as hub
 
 #formatting the image for processing (normalize pixels and changing shape to (224,224)
 def process_image(image):
