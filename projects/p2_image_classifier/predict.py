@@ -15,7 +15,7 @@ def Main():
     parser.add_argument('model', help='.h5 file')
     
     #not mandatory arguments
-    parser.add_argument('--top_k', help='integer; the number of top responses',action='store_true',default=5)
+    parser.add_argument('--top_k', help='integer; the number of top responses',action='store_true')
     parser.add_argument('--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
 
     args = parser.parse_args()
@@ -63,11 +63,24 @@ def Main():
 
     #print the top_k and their associated probabilities
     if args.top_k:
+        
+        top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=args.top_k)
+        probs = top_k_probs.numpy().tolist()
+        classes = top_k_indices.numpy().tolist()
+        classes = [n+1 for n in classes]
+        labels = [class_names[str(n+1)] for n in classes]
+
         for _ in range(args.top_k):
             print('\t\u2022' + str(probs[_]) + ':' + str(labels[_]))
             
     #print the most likely label & it's associated probability
     else:
+        top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=5)
+        probs = top_k_probs.numpy().tolist()
+        classes = top_k_indices.numpy().tolist()
+        classes = [n+1 for n in classes]
+        labels = [class_names[str(n+1)] for n in classes]
+
         print(labels[np.argmax(probs)],max(probs))
 
 if __name__ == '__main__':
