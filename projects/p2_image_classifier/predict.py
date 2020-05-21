@@ -61,7 +61,7 @@ def Main():
     #outputs
 
     #print the top_k and their associated probabilities
-    if args.top_k:
+    if args.top_k != 5:
         
         top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=args.top_k)
         probs = top_k_probs.numpy().tolist()
