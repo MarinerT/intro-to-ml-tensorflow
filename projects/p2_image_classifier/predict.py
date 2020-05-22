@@ -20,7 +20,7 @@ def Main():
 
     args = parser.parse_args()
     
-    predict_probs(args)
+    prob_predictions = predict_probs()
     
     if args.top_k:
         top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=args.top_k)
@@ -70,7 +70,7 @@ def process_image(image_path):
     processed_image =  np.expand_dims(image,axis=0)
     return processed_image
     
-def predict_probs(args):
+def predict_probs():
     #make predictions
     predictions = model(process_image(args.path), training=False)
     prob_predictions = predictions[0]
