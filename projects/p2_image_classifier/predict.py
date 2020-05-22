@@ -39,8 +39,11 @@ def Main():
     with open(args.category_names,'r') as f:
         class_names = simplejson.load(f)
     
-    prob_predictions = predict_probs()
+    #make predictions
+    predictions = model(process_image(args.path), training=False)
+    prob_predictions = predictions[0]
     
+    #print outputs
     if args.top_k:
         top_k_probs, top_k_indices = tf.math.top_k(prob_predictions, k=args.top_k)
         probs = top_k_probs.numpy().tolist()
@@ -68,12 +71,6 @@ def process_image(image_path):
     image = process_image(image)
     processed_image =  np.expand_dims(image,axis=0)
     return processed_image
-    
-def predict_probs():
-    #make predictions
-    predictions = model(process_image(args.path), training=False)
-    prob_predictions = predictions[0]
-    return prob_predictions
 
 if __name__ == '__main__':
     Main()
