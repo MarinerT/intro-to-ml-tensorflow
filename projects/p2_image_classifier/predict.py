@@ -39,8 +39,14 @@ def Main():
     with open(args.category_names,'r') as f:
         class_names = simplejson.load(f)
     
+    #process image
+    im = Image.open(args.path)
+    image = np.asarray(im)
+    image = process_image(image)
+    processed_image = np.expand_dims(image,axis=0)
+    
     #make predictions
-    predictions = model(process_image(args.path), training=False)
+    predictions = model(processed_image, training=False)
     prob_predictions = predictions[0]
     
     #print outputs
@@ -62,15 +68,6 @@ def Main():
         labels = [class_names[str(n+1)] for n in classes]
 
         print(labels[np.argmax(probs)],max(probs))
-
-#process image
-def process_image(image_path):
-    #process image
-    im = Image.open(image_path)
-    image = np.asarray(im)
-    image = process_image(image)
-    processed_image =  np.expand_dims(image,axis=0)
-    return processed_image
 
 if __name__ == '__main__':
     Main()
