@@ -15,8 +15,8 @@ def Main():
     parser.add_argument('model', help='.h5 file')
     
     #not mandatory arguments
-    parser.add_argument('-t','--top_k', help='integer; the number of top responses',action='store_true', default=5)
-    parser.add_argument('-c','--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
+    parser.add_argument('--top_k', help='integer; the number of top responses', default=5)
+    parser.add_argument('--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
 
     args = parser.parse_args()
     
@@ -55,7 +55,7 @@ def Main():
     labels = [class_names[str(n+1)] for n in classes]
     
     #print outputs
-    if args.top_k:
+    if args.top_k != 5:
         for _ in range(args.top_k):
             print('\t\u2022' + str(probs[_]) + ':' + str(labels[_]))
             
