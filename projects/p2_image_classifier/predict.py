@@ -52,7 +52,7 @@ def Main():
     probs = top_k_probs.numpy().tolist()
     classes = top_k_indices.numpy().tolist()
     classes = [n+1 for n in classes]
-    labels = [class_names[str(n+1)] for n in classes]
+    labels = [class_names[str(n)] for n in classes]
     
     #print outputs
     if args.top_k != 5:
