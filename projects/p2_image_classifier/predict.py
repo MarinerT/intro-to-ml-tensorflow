@@ -16,7 +16,7 @@ def Main():
     
     #not mandatory arguments
     parser.add_argument('-t','--top_k', help='integer; the number of top responses',action='store_true')
-    parser.add_argument('c','--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
+    parser.add_argument('-c','--category_names', help='a json file; map of label to catetgory',action='store_true',default='./label_map.json')
 
     args = parser.parse_args()
     
